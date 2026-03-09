@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('Checkout'){
         steps{
-            git 'https://github.com/loktionov-data/ExpenseTracker.git'
+            git branch: 'main', url: 'https://github.com/loktionov-data/ExpenseTracker.git'
         }
     }
         stage('Build'){
