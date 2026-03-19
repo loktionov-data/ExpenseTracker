@@ -1,13 +1,20 @@
 package com.expensetracker;
 
 import com.expensetracker.model.Expense;
+import com.expensetracker.service.ExpenseService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.expensestorage.ExpenseStorage;
 import javafx.scene.layout.HBox;
 
@@ -21,10 +28,10 @@ public class MainController {
     @FXML
     private TableColumn<Expense, LocalDate> dateColumn;
 
-    private ObservableList<Expense> expenses = FXCollections.observableArrayList();
 
     @FXML
     private HBox inputBox;
+
     @FXML
     private TextField categoryField;
 
@@ -37,6 +44,50 @@ public class MainController {
     @FXML
     private Label totalSum;
 
+    @FXML
+    private ComboBox<String> categoryFilterBox;
+
+    @FXML
+    private DatePicker fromDatePicker;
+
+    @FXML
+    private DatePicker toDatePicker;
+
+    @FXML
+    private Button resetButton;
+
+    private ExpenseService expenseService;
+    private FilteredList<Expense> filteredData;
+
+    private void setExpenseService(ExpenseService service){
+        this.expenseService = service;
+        filteredData = new FilteredList<>(expenseService.getExpenses(), p->true);
+        expenseTable.setItems(filteredData);
+    }
+    private void applyFilters(){
+
+        String selectedCategory = categoryFilterBox.getValue();
+        LocalDate fromDate = fromDatePicker.getValue();
+        LocalDate toDate = toDatePicker.getValue();
+
+        filteredData.setPredicate(expense -> {
+
+            if(expense == null){
+                return false;
+            }
+
+            boolean categoryMatch = (selectedCategory == null || selectedCategory.equals("All")
+                    || expense.getCategory().equalsIgnoreCase(selectedCategory));
+
+            boolean fromMatch = (fromDate == null ||
+                    (expense.getDate() != null && !expense.getDate().isBefore(fromDate)));
+
+            boolean toMatch = (toDate == null ||
+                    (expense.getDate() != null && !expense.getDate().isAfter(toDate)));
+
+            return categoryMatch && fromMatch && toMatch;
+        });
+    }
 
     @FXML
     public void initialize(){
@@ -49,10 +100,10 @@ public class MainController {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         dateColumn.prefWidthProperty().bind(expenseTable.widthProperty().divide(3));
 
-        expenses.addAll(ExpenseStorage.loadExpenses());
-        expenseTable.setItems(expenses);
         expenseTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         expenseTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        setExpenseService(new ExpenseService());
+        updateCategoryFilter();
         datePicker.setDayCellFactory(picker-> new DateCell(){
             @Override
             public void updateItem(LocalDate date, boolean empty){
@@ -68,11 +119,20 @@ public class MainController {
         amountField.prefWidthProperty().bind(inputBox.widthProperty().multiply(0.2));
         datePicker.prefWidthProperty().bind(inputBox.widthProperty().multiply(0.13));
 
+
+        categoryFilterBox.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+        fromDatePicker.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+        toDatePicker.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+
+        categoryFilterBox.setValue("All");
+        fromDatePicker.setValue(null);
+        toDatePicker.setValue(null);
+
     }
 
     @FXML
     private void updateTotalSum(){
-        double total = expenses.stream().mapToDouble(Expense::getAmount).sum();
+        double total = expenseService.getTotalSum();
         totalSum.setText("Total: " + total);
     }
     @FXML
@@ -87,16 +147,15 @@ public class MainController {
         }
 
         try{
-           amountToAdd = Double.parseDouble(amountField.getText());
+           amountToAdd = Double.parseDouble(amountText);
         }catch (NumberFormatException e)
         {
             return;
         }
 
-        Expense expense = new Expense(categoryToAdd, amountToAdd, date);
-        expenses.add(expense);
+        expenseService.addExpense(categoryToAdd, amountToAdd, date);
         updateTotalSum();
-        ExpenseStorage.saveExpenses(expenses);
+        updateCategoryFilter();
         categoryField.clear();
         amountField.clear();
         datePicker.setValue(null);
@@ -105,7 +164,18 @@ public class MainController {
     @FXML
     private void sortByDate(){
         expenseTable.getSortOrder().add(dateColumn);
+    }
 
+    private void updateCategoryFilter(){
+        Set<String> categories = expenseService.getExpenses().stream()
+                .map(Expense::getCategory)
+                .collect(Collectors.toSet());
+
+        List<String> items = new ArrayList<>();
+        items.add("All");
+        items.addAll(categories);
+
+        categoryFilterBox.getItems().setAll(items);
     }
 
     @FXML
@@ -113,10 +183,19 @@ public class MainController {
         var selected = expenseTable.getSelectionModel().getSelectedItems();
 
         if(!selected.isEmpty()){
-            expenses.removeAll(selected);
-            ExpenseStorage.saveExpenses(expenses);
+            expenseService.deleteExpenses(selected);
+            updateCategoryFilter();
         }
-
     }
+
+    @FXML
+    private void resetFilters(){
+        categoryFilterBox.setValue("All");
+        fromDatePicker.setValue(null);
+        toDatePicker.setValue(null);
+
+        applyFilters();
+    }
+
 
 }

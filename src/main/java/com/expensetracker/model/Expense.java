@@ -21,4 +21,24 @@ public class Expense {
     public LocalDate getDate(){
         return date;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o){
+            return true;
+        }
+        else if (!(o instanceof Expense)){
+            return false;
+        }
+
+        Expense expense = (Expense) o;
+        return Double.compare(amount, expense.amount) == 0 &&
+                getCategory().equals(expense.getCategory()) &&
+                getDate().equals(expense.getDate());
+    }
+
+    @Override
+    public int hashCode(){
+        return java.util.Objects.hash(getCategory(), getAmount(), getDate());
+    }
 }

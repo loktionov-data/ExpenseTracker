@@ -11,5 +11,10 @@ pipeline{
                 bat 'echo Building project'
             }
         }
+        stage('Test'){
+            steps{
+                bat 'mvn -DTest=ExpenseServiceTest test'
+            }
+        }
     }
 }

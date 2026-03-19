@@ -12,6 +12,16 @@
       fx:controller="com.expensetracker.MainController"
       alignment="CENTER"
       spacing="10" VBox.vgrow="ALWAYS">
+    <HBox fx:id="FilterBox" spacing="10">
+        <Label text="Category"/>
+        <ComboBox fx:id="categoryFilterBox"/>
+        <Button text="Sort by date" onAction="#sortByDate"/>
+        <Label fx:id="dateFrom" text="From:"/>
+        <DatePicker fx:id="fromDatePicker"/>
+        <Label fx:id="dateTo" text="To:"/>
+        <DatePicker fx:id="toDatePicker"/>
+        <Button fx:id="resetButton" text="Reset" onAction="#resetFilters"/>
+    </HBox>
     <TableView fx:id="expenseTable" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn text = "Category" fx:id="categoryColumn"/>
@@ -29,7 +39,6 @@
         <DatePicker fx:id="datePicker"/>
         <Button text="Add Expense" onAction="#addExpense"/>
         <Button text="Delete selected" onAction="#deleteExpense"/>
-        <Button text="Sort by date" onAction="#sortByDate"/>
     </HBox>
 </VBox>
 
