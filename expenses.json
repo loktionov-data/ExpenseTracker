@@ -28,5 +28,25 @@
     "category": "Not Food",
     "amount": 34.0,
     "date": "2002-02-02"
+  },
+  {
+    "category": "Food",
+    "amount": 22.0,
+    "date": "2026-05-04"
+  },
+  {
+    "category": "Not Food",
+    "amount": 34.0,
+    "date": "2002-02-02"
+  },
+  {
+    "category": "Food",
+    "amount": 22.0,
+    "date": "2026-05-04"
+  },
+  {
+    "category": "Not Food",
+    "amount": 34.0,
+    "date": "2002-02-02"
   }
 ]
