@@ -48,5 +48,10 @@
     "category": "Not Food",
     "amount": 34.0,
     "date": "2002-02-02"
+  },
+  {
+    "category": "DS",
+    "amount": 22.0,
+    "date": "2026-03-11"
   }
 ]

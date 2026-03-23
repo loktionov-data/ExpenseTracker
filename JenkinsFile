@@ -12,8 +12,17 @@ pipeline{
             }
         }
         stage('Test'){
-            steps{
-                bat 'mvn -Dtest=ExpenseServiceTest test'
+            parallel{
+                stage('Unit tests of ExpenseService'){
+                    steps{
+                        bat 'mvn -Dtest=ExpenseServiceTest test'
+                    }
+                }
+                stage('Unit tests of FilterService'){
+                    steps{
+                        bat 'mvn -Dtest=FilterServiceTest test'
+                    }
+                }
             }
         }
     }

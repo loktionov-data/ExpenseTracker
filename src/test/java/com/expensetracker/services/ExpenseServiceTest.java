@@ -1,4 +1,4 @@
-package com.expensetracker.service;
+package com.expensetracker.services;
 
 import com.expensetracker.model.Expense;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ExpenseServiceTest {
+
     @Test
     public void addExpenseTest(){
         ExpenseService es = new ExpenseService();

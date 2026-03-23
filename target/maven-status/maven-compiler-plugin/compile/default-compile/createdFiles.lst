@@ -1,7 +1,6 @@
 com\expensetracker\model\Expense.class
 com\expensestorage\ExpenseStorage$1.class
 com\expensestorage\ExpenseStorage.class
-com\expensetracker\service\ExpenseService.class
 com\expensestorage\LocalDateAdapter.class
 com\expensetracker\MainController$1.class
 com\expensetracker\Main.class
