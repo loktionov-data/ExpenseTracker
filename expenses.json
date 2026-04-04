@@ -5,53 +5,23 @@
     "date": "2026-03-01"
   },
   {
-    "category": "Food",
-    "amount": 22.0,
-    "date": "2025-02-17"
-  },
-  {
-    "category": "Not Food",
-    "amount": 34.0,
-    "date": "2002-02-02"
-  },
-  {
-    "category": "Not Food",
-    "amount": 34.0,
-    "date": "2002-02-02"
-  },
-  {
-    "category": "Food",
-    "amount": 22.0,
-    "date": "2026-05-04"
-  },
-  {
-    "category": "Not Food",
-    "amount": 34.0,
-    "date": "2002-02-02"
-  },
-  {
-    "category": "Food",
-    "amount": 22.0,
-    "date": "2026-05-04"
-  },
-  {
-    "category": "Not Food",
-    "amount": 34.0,
-    "date": "2002-02-02"
-  },
-  {
-    "category": "Food",
-    "amount": 22.0,
-    "date": "2026-05-04"
-  },
-  {
-    "category": "Not Food",
-    "amount": 34.0,
-    "date": "2002-02-02"
-  },
-  {
     "category": "DS",
     "amount": 22.0,
     "date": "2026-03-11"
+  },
+  {
+    "category": "FF",
+    "amount": 22.0,
+    "date": "2026-03-31"
+  },
+  {
+    "category": "Food",
+    "amount": 1.0,
+    "date": "2026-03-30"
+  },
+  {
+    "category": "Semen",
+    "amount": 22.0,
+    "date": "2026-04-01"
   }
 ]

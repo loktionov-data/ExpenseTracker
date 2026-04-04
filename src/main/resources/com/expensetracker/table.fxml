@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      fx:controller="com.expensetracker.controllers.TableController" >
+    <padding>
+        <Insets top="10" right="0" bottom="0" left="0"/>
+    </padding>
+    <HBox fx:id="FilterBox" spacing="10" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="0" right="0" bottom="0" left="5"/>
+        </padding>
+        <Label text="Category"/>
+        <ComboBox fx:id="categoryFilterBox"/>
+        <Button text="Sort by date" onAction="#sortByDate"/>
+        <Label fx:id="dateFrom" text="From:"/>
+        <DatePicker fx:id="fromDatePicker"/>
+        <Label fx:id="dateTo" text="To:"/>
+        <DatePicker fx:id="toDatePicker"/>
+        <Button fx:id="resetButton" text="Reset" onAction="#resetFilters"/>
+    </HBox>
+    <TableView fx:id="expenseTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text = "Category" fx:id="categoryColumn"/>
+            <TableColumn text = "Amount" fx:id="amountColumn"/>
+            <TableColumn text = "Date" fx:id="dateColumn"/>
+        </columns>
+    </TableView>
+    <HBox fx:id="inputBox" spacing = "10" alignment="BASELINE_CENTER">
+        <padding>
+            <Insets bottom="10"/>
+        </padding>
+        <TextField fx:id="categoryField" promptText="category"/>
+        <TextField fx:id="amountField" promptText="amount" />
+        <DatePicker fx:id="datePicker"/>
+        <Button text="Add Expense" onAction="#addExpense"/>
+        <Button text="Delete selected" onAction="#deleteExpense"/>
+    </HBox>
+    <Label fx:id="totalSum" text="Total: 0" alignment="CENTER" maxWidth="Infinity">
+        <padding>
+            <Insets bottom="10"/>
+        </padding>
+    </Label>
+</VBox>

@@ -1,5 +1,4 @@
-package com.expensetracker;
-
+package com.expensetracker.controllers;
 import com.expensetracker.model.Expense;
 import com.expensetracker.services.ExpenseService;
 import com.expensetracker.services.FilterService;
@@ -8,18 +7,14 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import javafx.scene.layout.HBox;
-
-public class MainController {
-
-    //Table displaying all the expenses
+public class TableController {
     @FXML
     private TableView<Expense> expenseTable;
 
@@ -89,6 +84,9 @@ public class MainController {
         this.filterService = service;
     }
 
+    public FilteredList<Expense> getFilteredData(){
+        return new FilteredList<Expense>(filteredData);
+    }
     //Applying filters
     private void applyFilters(){
         //Reading the filter values from UI
@@ -174,7 +172,7 @@ public class MainController {
         }
 
         try{
-           amountToAdd = Double.parseDouble(amountText);
+            amountToAdd = Double.parseDouble(amountText);
         }catch (NumberFormatException e)
         {
             return;
@@ -238,6 +236,4 @@ public class MainController {
 
         applyFilters();
     }
-
-
 }
